@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logstash
+  namespace: spring-cloud-demo
+  labels:
+    app: logstash
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logstash
+  template:
+    metadata:
+      name: logstash
+      labels:
+        app: logstash
+    spec:
+      containers:
+      - name: log
+        image: logstash:7.9.1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5044
+          protocol: TCP
+        volumeMounts:  ###该容器需要挂载的地址,也就是logstash.conf,因为logstash日志接收和转发信息都在此文件配置
+        - name: log-config
+          mountPath: /usr/share/logstash/pipeline
+        env:  ###非常重要!!!和上一步的kibana此处配置一样的效果,参数名称需要和logstash/config/中配置文件一样
+        - name: XPACK_MONITORING_ELASTICSEARCH_HOSTS
+          value: "http://elasticsearch-service.spring-cloud-demo:9200"
+        securityContext:
+          privileged: true
+      volumes:  ###指定从哪里挂载目录
+      - name: log-config  ###对应到volumeMounts中的name
+        hostPath:  ###从当前Node本地路径加载,直接写我自己电脑绝对路径不对,此时的Node是minikube容器,所以这个地址也是minikube的目录,所以首先得把电脑本地路径挂载到minikube路径, 然后这里才能取到配置文件等信息(下一步说明)
+          path: /Users/xiechunyong/data/pipeline
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: logstash-service
+  namespace: spring-cloud-demo
+spec:
+  type: NodePort
+  ports:
+  - port: 5044
+    protocol: TCP
+    targetPort: 5044
+    nodePort: 5044
+  selector:
+    app: logstash

@@ -1,0 +1,113 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-mongo
+spec:
+  capacity:
+    storage: 2G
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nfs
+  nfs:
+    path: /Users/xiechunyong/data/nfs_data/mongo
+    server: 192.168.3.53
+
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-mongo
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: nfs
+
+---
+apiVersion: v1
+data:
+  mongo.conf: |
+    systemLog:
+      destination: file
+      path: "/data/db/mongodb.log"
+      logAppend: true
+    processManagement:
+      fork: false
+    net:
+      bindIp: 0.0.0.0
+      port: 27017
+    storage:
+      engine: wiredTiger
+      dbPath: /data/db
+      wiredTiger:
+        engineConfig:
+          cacheSizeGB: 1
+    replication:
+      replSetName: "online"
+kind: ConfigMap
+metadata:
+  name: mongo-conf
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+  labels:
+    name: mongo-service
+spec:
+  selector:
+    app: mongo
+  ports:
+  - port: 27017
+    targetPort: 27017
+    nodePort: 27017
+  type: NodePort
+
+--- 
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: mongo
+  name: mongo
+spec:
+  serviceName: "mongo"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+      - args:
+        - -f
+        - /etc/mongo/mongo.conf
+        command:
+        - mongod
+        name: mongo
+        image: mongo
+        ports:
+          - containerPort: 27017
+        volumeMounts:
+        - name: mongo-data
+          mountPath: /data/db
+        - mountPath: /etc/mongo
+          name: mongo-conf
+      volumes:
+        - name: mongo-data
+          persistentVolumeClaim:
+            claimName: pvc-mongo
+        - name: mongo-conf
+          configMap:
+            name: mongo-conf
+            items:
+            - key: mongo.conf
+              path: mongo.conf

@@ -1,0 +1,268 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: apollo-configservice
+  namespace: spring-cloud-demo
+data:
+  application-github.properties: |
+    spring.datasource.url = jdbc:mysql://mysql-db-svc.spring-cloud-demo:3306/ApolloConfigDB?characterEncoding=utf8
+    spring.datasource.username = root
+    spring.datasource.password = root
+    apollo.config-service.url = http://apollo-configservice.spring-cloud-demo:8080
+    apollo.admin-service.url = http://apollo-adminservice.spring-cloud-demo:8090
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: apollo-adminservice
+  namespace: spring-cloud-demo
+data:
+  application-github.properties: |
+    spring.datasource.url = jdbc:mysql://mysql-db-svc.spring-cloud-demo:3306/ApolloConfigDB?characterEncoding=utf8
+    spring.datasource.username = root
+    spring.datasource.password = root
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: apollo-portal
+  namespace: spring-cloud-demo
+data:
+  application-github.properties: |
+    spring.datasource.url = jdbc:mysql://mysql-db-svc.spring-cloud-demo:3306/ApolloPortalDB?characterEncoding=utf8
+    spring.datasource.username = root
+    spring.datasource.password = root
+    apollo.portal.envs = dev
+  apollo-env.properties: |
+    dev.meta = http://apollo-configservice:8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apollo-configservice
+  namespace: spring-cloud-demo
+  labels:
+    app: apollo-configservice
+spec:
+  type: NodePort
+  selector:
+    app: apollo-configservice
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30080
+    
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apollo-adminservice
+  namespace: spring-cloud-demo
+  labels:
+    app: apollo-adminservice
+spec:
+  type: NodePort
+  selector:
+    app: apollo-adminservice
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8090
+      targetPort: 8090
+      nodePort: 30090
+
+---
+#apiVersion: extensions/v1beta1
+#kind: Ingress
+#metadata:
+#  name: apollo-portal
+#  namespace: spring-cloud-demo
+#  labels:
+#    app: apollo-portal
+#spec:
+#  rules:
+#    - host: apollo.wqf.com
+#      http:
+#        paths:
+#          - path: /
+#            backend:
+#              serviceName: apollo-portal
+#              servicePort: 8070
+#
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apollo-portal
+  namespace: spring-cloud-demo
+  labels:
+    app: apollo-portal
+spec:
+  type: NodePort
+  selector:
+    app: apollo-portal
+  sessionAffinity: ClientIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8070
+      targetPort: 8070
+      nodePort: 30070
+      
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apollo-configservice
+  namespace: spring-cloud-demo
+  labels:
+    app: apollo-configservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apollo-configservice
+  template:
+    metadata:
+      labels:
+        app: apollo-configservice
+    spec:
+      containers:
+        - name: apollo-configservice
+          image: apolloconfig/apollo-configservice:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "github,kubernetes"
+          #resources:
+          #  limits:
+          #    cpu: "1000m"
+          #    memory: "1024Mi"
+          #  requests:
+          #    cpu: "1000m"
+          #    memory: "1024Mi"
+          volumeMounts:
+            - name: apollo-configservice-config
+              mountPath: /apollo-configservice/config/application-github.properties
+              subPath: application-github.properties
+      volumes:
+        - name: apollo-configservice-config
+          configMap:
+            name: apollo-configservice
+            items:
+              - key: application-github.properties
+                path: application-github.properties
+            defaultMode: 420
+    
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apollo-adminservice
+  namespace: spring-cloud-demo
+  labels:
+    app: apollo-adminservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apollo-adminservice
+  template:
+    metadata:
+      labels:
+        app: apollo-adminservice
+    spec:
+      containers:
+        - name: apollo-adminservice
+          image: apolloconfig/apollo-adminservice:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8090
+              protocol: TCP
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "github,kubernetes"
+          #resources:
+          #  limits:
+          #    cpu: "1000m"
+          #    memory: "1024Mi"
+          #  requests:
+          #    cpu: "1000m"
+          #    memory: "1024Mi"
+          volumeMounts:
+            - name: apollo-adminservice-config
+              mountPath: /apollo-adminservice/config/application-github.properties
+              subPath: application-github.properties
+      volumes:
+        - name: apollo-adminservice-config
+          configMap:
+            name: apollo-adminservice
+            items:
+              - key: application-github.properties
+                path: application-github.properties
+            defaultMode: 420
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apollo-portal
+  namespace: spring-cloud-demo
+  labels:
+    app: apollo-portal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apollo-portal
+  template:
+    metadata:
+      labels:
+        app: apollo-portal
+    spec:
+      containers:
+        - name: apollo-portal
+          image: apolloconfig/apollo-portal:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8070
+              protocol: TCP
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "github,auth"
+          resources:
+            limits:
+              cpu: "1000m"
+              memory: "1024Mi"
+            requests:
+              cpu: "1000m"
+              memory: "1024Mi"
+          volumeMounts:
+            - name: apollo-portal-config
+              mountPath: /apollo-portal/config/application-github.properties
+              subPath: application-github.properties
+            - name: apollo-portal-config
+              mountPath: /apollo-portal/config/apollo-env.properties
+              subPath: apollo-env.properties
+      volumes:
+        - name: apollo-portal-config
+          configMap:
+            name: apollo-portal
+            items:
+              - key: application-github.properties
+                path: application-github.properties
+              - key: apollo-env.properties
+                path: apollo-env.properties
+            defaultMode: 420
+

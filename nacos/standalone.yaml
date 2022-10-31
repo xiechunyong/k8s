@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nacos
+spec:
+  serviceName: nacos
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nacos
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+    spec:
+      containers:
+        - name: nacos
+          imagePullPolicy: IfNotPresent
+          image: nacos/nacos-server
+          ports:
+            - containerPort: 8848
+          env:
+            - name: MYSQL_DATABASE_NUM
+              value: "0"
+            - name: MODE
+              value: "standalone"
+  selector:
+    matchLabels:
+      app: nacos
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nacos-service
+  labels:
+    name: nacos-service
+spec:
+  type: NodePort
+  ports:
+  - port: 8848
+    protocol: TCP
+    targetPort: 8848
+    nodePort: 8848
+  selector:
+    app: nacos

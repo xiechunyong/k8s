@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment  ###启动es容器, 级别可以是Pod等,有不同定义的
+metadata:
+  name: elasticsearch
+  namespace: spring-cloud-demo  ###第一步已定义, 可以全部不使用, 走默认default namespace
+  labels:
+    app: elasticsearch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch  ###定义k:v格式标签, 用于Service通过标签查询并连接
+  template:
+    metadata:
+      name: elasticsearch
+      labels:
+        app: elasticsearch
+    spec:
+      containers:
+      - image: elasticsearch:7.9.1  ###docker镜像, 注意ELK三者的版本号请统一
+        imagePullPolicy: IfNotPresent
+        name: es
+        resources:
+          limits:
+            cpu: 1
+            memory: 2Gi
+          requests:
+            cpu: 0.5
+            memory: 500Mi
+        env:  ###环境变量, 相当于docker run中的-e参数
+        - name: "discovery.type"  ###单节点es
+          value: "single-node"
+        - name: ES_JAVA_OPTS
+          value: "-Xms512m -Xmx2g"
+        ports:  ###设置容器暴露端口, 相当于设置Pod端口9200,9300 tcp可用
+        - containerPort: 9200
+          protocol: TCP
+        - containerPort: 9300
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service  ###启动服务, 用于对外暴露Pod信息, 因为k8s外无法直连Pod, 必须通过Service暴露出去端口
+metadata:
+  name: elasticsearch-service
+  namespace: spring-cloud-demo
+spec:
+  type: NodePort  ###相当于Pod端口映射Node端口, 外部访问通过NodeIP+NodePort就可以连到服务
+  ports:
+  - name: esport
+    port: 9200  ###Service连接Pod端口
+    targetPort: 9200  ###上面暴露的es Pod端口
+    protocol: TCP
+    nodePort: 9200  ###k8s外部访问端口, 自定义, 但是有范围
+  - name: esportlink
+    port: 9300
+    targetPort: 9300
+    protocol: TCP
+    nodePort: 9300
+  selector:  ###很重要, 服务绑定到指定K:V形式的Pod, 上面配置好的
+    app: elasticsearch
