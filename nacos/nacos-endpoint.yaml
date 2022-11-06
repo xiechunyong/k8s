@@ -7,7 +7,7 @@ metadata:
     app: nacos
 subsets:
   - addresses:
-      - ip: 192.168.3.53
+      - ip: 180.76.150.171
     ports:
       - port: 8848
 ---
