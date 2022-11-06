@@ -47,7 +47,7 @@ spec:
             - name: TZ
               value: Asia/Shanghai
             - name: JAVA_OPTS
-              value: "-Dnacos=nacos-service:8848 -Dnacos=nacos-service:8848 -Dsentinel=sentinel.spring-cloud-demo:8858"
+              value: "-Dnacos=nacos-service:8848"
   selector:
     matchLabels:
       app: yst-nuskin-auth

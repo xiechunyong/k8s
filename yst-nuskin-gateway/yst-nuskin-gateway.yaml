@@ -47,7 +47,7 @@ spec:
             - name: TZ
               value: Asia/Shanghai
             - name: JAVA_OPTS
-              value: "-Dspring.cloud.nacos.discovery.server-addr=nacos.spring-cloud-demo:8848 -Dspring.cloud.nacos.config.server-addr=nacos.spring-cloud-demo:8848 -Dspring.cloud.sentinel.transport.dashboard=sentinel.spring-cloud-demo:8858"
+              value: "-Dnacos=nacos-service:8848 -Dsentinel=sentinel.spring-cloud-demo:8858"
   selector:
     matchLabels:
       app: yst-nuskin-gateway
