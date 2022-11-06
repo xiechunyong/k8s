@@ -1,0 +1,26 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+  namespace: spring-cloud-demo
+  name: mysql
+  labels:
+    app: mysql
+subsets:
+  - addresses:
+      - ip: sh-cynosdbmysql-grp-azoyq6z8.sql.tencentcdb.com
+    ports:
+      - port: 25388
+---
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: spring-cloud-demo
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  ports:
+  type: ClusterIP
+  ports:
+    - port: 3306
+      targetPort: 3306
