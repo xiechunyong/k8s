@@ -48,6 +48,8 @@ spec:
               value: Asia/Shanghai
             - name: JAVA_OPTS
               value: "-Dnacos=nacos.spring-cloud-demo:8848"
+            - name: PARAMS
+              value: "--nacos=nacos.spring-cloud-demo:8848"
   selector:
     matchLabels:
       app: yst-nuskin-auth
