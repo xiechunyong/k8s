@@ -38,8 +38,8 @@ spec:
           image: xiechunyong/yst-nuskin-auth
           resources:
             limits:
-              memory: "1Gi"
-              cpu: "300m"
+              memory: "512m"
+              cpu: "200m"
           ports:
             - containerPort: 8201
               name: client
