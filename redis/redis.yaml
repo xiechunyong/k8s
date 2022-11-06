@@ -10,8 +10,8 @@ spec:
     - ReadWriteMany
   storageClassName: nfs
   nfs:
-    path: /Users/xiechunyong/data/nfs_data/redis
-    server: 192.168.3.53
+    path: /nfsdata/redis
+    server: 192.168.0.4
 
 
 ---

@@ -10,8 +10,8 @@ spec:
     - ReadWriteMany
   storageClassName: nfs
   nfs:
-    path: /Users/xiechunyong/data/nfs_data/mongo
-    server: 192.168.3.53
+    path: /nfsdata/mongo
+    server: 192.168.0.4
 
 
 ---
