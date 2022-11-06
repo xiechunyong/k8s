@@ -1,0 +1,26 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+  namespace: spring-cloud-demo
+  name: sentinel
+  labels:
+    app: sentinel
+subsets:
+  - addresses:
+      - ip: 180.76.150.171
+    ports:
+      - port: 8858
+---
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: spring-cloud-demo
+  name: sentinel
+  labels:
+    app: sentinel
+spec:
+  ports:
+  type: ClusterIP
+  ports:
+    - port: 8858
+      targetPort: 8858
