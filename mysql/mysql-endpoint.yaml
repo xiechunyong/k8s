@@ -7,7 +7,7 @@ metadata:
     app: mysql
 subsets:
   - addresses:
-      - ip: sh-cynosdbmysql-grp-azoyq6z8.sql.tencentcdb.com
+      - ip: 211.159.215.12
     ports:
       - port: 25388
 ---
