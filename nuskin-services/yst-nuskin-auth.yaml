@@ -12,7 +12,7 @@ spec:
       name: http
       port: 8401
       targetPort: 8401
-      nodePort: 18401
+      nodePort: 8401
   type: NodePort
   selector:
     app: yst-nuskin-auth
@@ -39,7 +39,7 @@ spec:
           resources:
             limits:
               memory: "1Gi"
-              # cpu: "1"
+              cpu: "1000m"
           ports:
             - containerPort: 8401
               name: client
