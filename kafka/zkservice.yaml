@@ -1,0 +1,26 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+  namespace: spring-cloud-demo
+  name: zookeeper
+  labels:
+    app: zookeeper
+subsets:
+  - addresses:
+      - ip: 192.168.3.53
+    ports:
+      - port: 2181
+---
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: spring-cloud-demo
+  name: zookeeper
+  labels:
+    app: zookeeper
+spec:
+  ports:
+  type: ClusterIP
+  ports:
+    - port: 2181
+      targetPort: 2181
