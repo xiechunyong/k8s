@@ -11,7 +11,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/Users/xiechunyong/data/spring_cloud_mysql"
+    path: "/data/spring_cloud_mysql"
   nodeAffinity:
     required:
       nodeSelectorTerms:
