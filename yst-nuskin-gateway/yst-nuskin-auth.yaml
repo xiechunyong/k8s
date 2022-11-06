@@ -3,9 +3,9 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: spring-cloud-demo
-  name: yst-nuskin-gateway
+  name: yst-nuskin-auth
   labels:
-    app: yst-nuskin-gateway
+    app: yst-nuskin-auth
 spec:
   ports:
     - protocol: TCP
@@ -15,27 +15,27 @@ spec:
       nodePort: 8201
   type: NodePort
   selector:
-    app: yst-nuskin-gateway
+    app: yst-nuskin-auth
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   namespace: spring-cloud-demo
-  name: yst-nuskin-gateway
+  name: yst-nuskin-auth
 spec:
-  serviceName: yst-nuskin-gateway
+  serviceName: yst-nuskin-auth
   replicas: 1
   template:
     metadata:
       labels:
-        app: yst-nuskin-gateway
+        app: yst-nuskin-auth
       annotations:
         pod.alpha.kubernetes.io/initialized: "true"
     spec:
       containers:
-        - name: yst-nuskin-gateway
+        - name: yst-nuskin-auth
           imagePullPolicy: IfNotPresent
-          image: xiechunyong/yst-nuskin-gateway
+          image: xiechunyong/yst-nuskin-auth
           resources:
             limits:
               memory: "1Gi"
@@ -47,7 +47,7 @@ spec:
             - name: TZ
               value: Asia/Shanghai
             - name: JAVA_OPTS
-              value: "-Dspring.cloud.nacos.discovery.server-addr=nacos.spring-cloud-demo:8848 -Dspring.cloud.nacos.config.server-addr=nacos.spring-cloud-demo:8848 -Dspring.cloud.sentinel.transport.dashboard=sentinel.spring-cloud-demo:8858"
+              value: "-Dnacos=nacos-service:8848 -Dnacos=nacos-service:8848 -Dsentinel=sentinel.spring-cloud-demo:8858"
   selector:
     matchLabels:
-      app: yst-nuskin-gateway
+      app: yst-nuskin-auth
