@@ -36,10 +36,10 @@ spec:
         - name: yst-nuskin-gateway
           imagePullPolicy: IfNotPresent
           image: xiechunyong/yst-nuskin-gateway
-          # resources:
-          #   limits:
-          #     memory: "1Gi"
-          #     cpu: "1"
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
           ports:
             - containerPort: 8201
               name: client
