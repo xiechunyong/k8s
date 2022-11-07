@@ -47,9 +47,9 @@ spec:
             - name: TZ
               value: Asia/Shanghai
             - name: JAVA_OPTS
-              value: "-Dnacos=nacos-service:8848 -Dsentinel=sentinel.spring-cloud-demo:8858"
+              value: "-Dnacos=nacos-service.default:8848 -Dsentinel=sentinel.spring-cloud-demo:8858"
             - name: PARAMS
-              value: "--nacos=nacos-service:8848 --sentinel=sentinel.spring-cloud-demo:8858"
+              value: "--nacos=nacos-service.default:8848 --sentinel=sentinel.spring-cloud-demo:8858"
   selector:
     matchLabels:
       app: yst-nuskin-gateway
