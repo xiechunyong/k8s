@@ -19,19 +19,19 @@ spec:
       containers:
       - image: elasticsearch:7.9.1  ###docker镜像, 注意ELK三者的版本号请统一
         imagePullPolicy: IfNotPresent
-        name: es
+        name: elasticsearch
         resources:
           limits:
             cpu: 1
-            memory: 512Mi
+            memory: 200Mi
           requests:
-            cpu: 0.5
+            cpu: 200m
             memory: 200Mi
         env:  ###环境变量, 相当于docker run中的-e参数
         - name: "discovery.type"  ###单节点es
           value: "single-node"
         - name: ES_JAVA_OPTS
-          value: "-Xms512m -Xmx512m"
+          value: "-Xms200m -Xmx200m"
         ports:  ###设置容器暴露端口, 相当于设置Pod端口9200,9300 tcp可用
         - containerPort: 9200
           protocol: TCP
