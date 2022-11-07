@@ -31,7 +31,7 @@ spec:
         - name: "discovery.type"  ###单节点es
           value: "single-node"
         - name: ES_JAVA_OPTS
-          value: "-Xms512m -Xmx512m"
+          value: "-Xms512m -Xmx2g"
         ports:  ###设置容器暴露端口, 相当于设置Pod端口9200,9300 tcp可用
         - containerPort: 9200
           protocol: TCP
