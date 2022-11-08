@@ -40,6 +40,7 @@ metadata:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: spring-cloud-demo
   name: redis
   labels:
     name: redis
@@ -56,6 +57,7 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  namespace: spring-cloud-demo
   labels:
     app: redis
   name: redis
