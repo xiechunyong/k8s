@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql #此名字随便起
+  labels:
+    app: mysql
+  namespace: spring-cloud-demo  #在固定的命名空间下
+spec:
+  type: ExternalName 
+  externalName: localhost ##提供方的服务完全限定域名,如rds域名等。
+  ports:
+    - port: 3306
