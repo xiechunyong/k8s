@@ -2,26 +2,26 @@ kind: Endpoints
 apiVersion: v1
 metadata:
   namespace: spring-cloud-demo
-  name: nacos
+  name: mongo
   labels:
-    app: nacos
+    app: mongo
 subsets:
   - addresses:
       - ip: 192.168.3.53
       # - ip: 192.168.43.45
     ports:
-      - port: 8848
+      - port: 27017
 ---
 kind: Service
 apiVersion: v1
 metadata:
   namespace: spring-cloud-demo
-  name: nacos
+  name: mongo
   labels:
-    app: nacos
+    app: mongo
 spec:
   ports:
   type: ClusterIP
   ports:
-    - port: 8848
-      targetPort: 8848
+    - port: 27017
+      targetPort: 27017

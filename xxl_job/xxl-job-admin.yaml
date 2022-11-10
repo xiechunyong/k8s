@@ -21,7 +21,7 @@ spec:
         - containerPort: 8080
         env:
         - name: PARAMS   # 定义变量，用来设定mysql的用户/密码 mysql为k8s集群内的service名称，在k8s集群内部可以直接使用service名称，使用时mail替换成自己的邮箱和密码
-          value: "--spring.datasource.url=jdbc:mysql://mysql-db-svc.spring-cloud-demo:3306/xxl_job?Unicode=true&characterEncoding=UTF-8&useSSL=false --spring.datasource.username=root --spring.datasource.password=root --spring.mail.username=328029993@qq.com --spring.mail.password=aizdqtpccbcncagb"
+          value: "--spring.datasource.url=jdbc:mysql://mysql.spring-cloud-demo:3306/xxl_job?Unicode=true&characterEncoding=UTF-8&useSSL=false --spring.datasource.username=root --spring.datasource.password=root --spring.mail.username=328029993@qq.com --spring.mail.password=aizdqtpccbcncagb"
 ---
 apiVersion: v1
 kind: Service
