@@ -19,6 +19,6 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - docker-desktop
+          - iZuf6397u09wkubkjrf3skZ
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
