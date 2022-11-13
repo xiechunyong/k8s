@@ -58,3 +58,11 @@ spec:
   selector:
     matchLabels:
       app: sentinel
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - iZuf6397u09wkubkjrf3skZ
