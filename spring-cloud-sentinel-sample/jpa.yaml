@@ -38,8 +38,8 @@ spec:
           image: xiechunyong/jpa
           resources:
             limits:
-              memory: "512Mi"
-              cpu: "200m"
+              memory: "1Gi"
+              cpu: 500m
           ports:
             - containerPort: 8000
               name: client
