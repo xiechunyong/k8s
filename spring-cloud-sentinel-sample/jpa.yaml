@@ -3,51 +3,51 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: spring-cloud-demo
-  name: yst-nuskin-gateway
+  name: jpa
   labels:
-    app: yst-nuskin-gateway
+    app: jpa
 spec:
   ports:
     - protocol: TCP
       name: http
-      port: 8201
-      targetPort: 8201
-      nodePort: 18201
+      port: 8000
+      targetPort: 8000
+      nodePort: 8000
   type: NodePort
   selector:
-    app: yst-nuskin-gateway
+    app: jpa
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   namespace: spring-cloud-demo
-  name: yst-nuskin-gateway
+  name: jpa
 spec:
-  serviceName: yst-nuskin-gateway
+  serviceName: jpa
   replicas: 1
   template:
     metadata:
       labels:
-        app: yst-nuskin-gateway
+        app: jpa
       annotations:
         pod.alpha.kubernetes.io/initialized: "true"
     spec:
       containers:
-        - name: yst-nuskin-gateway
+        - name: jpa
           imagePullPolicy: IfNotPresent
-          image: xiechunyong/yst-nuskin-gateway
+          image: xiechunyong/jpa
           resources:
             limits:
-              memory: "1Gi"
+              memory: "512Mi"
               cpu: "200m"
           ports:
-            - containerPort: 8201
+            - containerPort: 8000
               name: client
           env:
             - name: TZ
               value: Asia/Shanghai
             - name: JAVA_OPTS
-              value: "-Xms1024m -Xmx1024m -Dspring.profiles.active=dev -Dnacos=nacos:8848 -Dsentinel=sentinel:8858"
+              value: "-Xms512m -Xmx512m -Dspring.profiles.active=test -Dspring.cloud.sentinel.transport.dashboard=sentinel:8858"
   selector:
     matchLabels:
-      app: yst-nuskin-gateway
+      app: jpa
