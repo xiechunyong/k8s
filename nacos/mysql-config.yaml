@@ -4,7 +4,7 @@ metadata:
   name: nacos-cm
   namespace: spring-cloud-demo
 data:
-  mysql.host: "sh-cynosdbmysql-grp-azoyq6z8.sql.tencentcdb.com"
+  mysql.host: "211.159.215.12"
   mysql.db.name: "nacos"
   mysql.port: "25388"
   mysql.user: "root"
