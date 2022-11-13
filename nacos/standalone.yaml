@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  namespace: spring-cloud-demo
   name: nacos
 spec:
   serviceName: nacos
@@ -55,6 +56,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: spring-cloud-demo
   name: nacos-service
   labels:
     name: nacos-service
