@@ -1,0 +1,39 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+  namespace: spring-cloud-demo
+  name: apollo
+  labels:
+    app: apollo
+subsets:
+  - addresses:
+      # - ip: 192.168.3.53
+      - ip: 192.168.43.45
+    ports:
+      - name: port1
+        port: 8070
+      - name: port2
+        port: 8080
+      - name: port3
+        port: 8090
+---
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: spring-cloud-demo
+  name: apollo
+  labels:
+    app: apollo
+spec:
+  ports:
+  type: ClusterIP
+  ports:
+    - port: 8070
+      name: port1
+      targetPort: 8070
+    - port: 8080
+      name: port2
+      targetPort: 8080
+    - port: 8090
+      name: port3
+      targetPort: 8090
