@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim # ①
+metadata:
+  namespace: spring-cloud-demo
+  name: nfspvc # ②
+spec:
+  accessModes:
+    - ReadWriteOnce # ③
+  resources:
+    requests:
+      storage: 6Gi # ④
+  storageClassName: nfs # ⑤
