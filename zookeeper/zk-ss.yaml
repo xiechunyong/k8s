@@ -147,8 +147,7 @@ spec:
   - metadata:
       name: zookeeper-data
     spec:
-      storageClassName: spring-cloud-demo-nfs-storage
-      accessModes:
+      storageClassName: nfs-zookeeper
       - ReadWriteOnce
       resources:
         requests:

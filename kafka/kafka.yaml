@@ -46,7 +46,7 @@ spec:
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: spring-cloud-demo-nfs-kafka
+  name: nfs-kafka
 provisioner: fuseim.pri/ifs
 parameters:
   archiveOnDelete: "false"   # 设置为"false"时删除PVC不会保留数据,"true"则保留数据
@@ -151,7 +151,7 @@ spec:
     - metadata:
         name: data
       spec:
-        storageClassName: spring-cloud-demo-nfs-kafka     # 指定为上面创建的 storageclass
+        storageClassName: nfs-kafka     # 指定为上面创建的 storageclass
         accessModes:
           - "ReadWriteOnce"
         resources:
