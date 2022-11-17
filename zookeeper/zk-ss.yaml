@@ -141,13 +141,13 @@ spec:
       volumes:
         - name: scripts
           configMap:
-            name: spring-cloud-demo-zk-scripts
+            name: zookeeper-scripts
             defaultMode: 0755
   volumeClaimTemplates:
   - metadata:
       name: zookeeper-data
     spec:
-      storageClassName: nfs
+      storageClassName: zookeeper-nfs
       accessModes:
       - ReadWriteOnce
       resources:
