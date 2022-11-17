@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  namespace: nfs
+  namespace: spring-cloud-demo
   name: mypod
 spec:
   containers:

@@ -147,7 +147,7 @@ spec:
   - metadata:
       name: zookeeper-data
     spec:
-      storageClassName: nfs-zookeeper
+      storageClassName: nfs
       accessModes:
       - ReadWriteOnce
       resources:
