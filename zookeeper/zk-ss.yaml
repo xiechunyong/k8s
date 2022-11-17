@@ -34,7 +34,7 @@ spec:
               - key: app.kubernetes.io/component
                 operator: In
                 values:
-                  - zookeeper
+                  - izuf6397u09wkubkjrf3skz
         podAntiAffinity:                                    # Pod反亲和性
           preferredDuringSchedulingIgnoredDuringExecution:  # 软策略,使Pod分布在不同的节点上
           - weight: 49                                      # 权重,有多个策略通过权重控制调度
