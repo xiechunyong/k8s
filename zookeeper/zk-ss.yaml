@@ -45,7 +45,7 @@ spec:
                 - key: app.kubernetes.io/component
                   operator: In
                   values:
-                  - zookeeper
+                  - zk-headless
       securityContext:
         fsGroup: 1001
       initContainers:
