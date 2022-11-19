@@ -14,14 +14,6 @@ spec:
         pod.alpha.kubernetes.io/initialized: "true"
     spec:
       affinity:
-        nodeAffinity:
-          required:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: kubernetes.io/hostname
-                operator: In
-                values:
-                - iZuf6397u09wkubkjrf3skZ
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
