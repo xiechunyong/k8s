@@ -19,7 +19,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: zookeeper34-pv1
+  name: zookeeper34-pv2
   namespace: spring-cloud-demo
   labels:
     app: zk
@@ -37,7 +37,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: zookeeper34-pv1
+  name: zookeeper34-pv3
   namespace: spring-cloud-demo
   labels:
     app: zk
