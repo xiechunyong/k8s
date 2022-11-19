@@ -73,8 +73,7 @@ spec:
   selector:
     matchLabels:
       app: nacos
-  affinity:
-    nodeAffinity:
+  nodeAffinity::
     required:
       nodeSelectorTerms:
       - matchExpressions:
