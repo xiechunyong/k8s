@@ -5,14 +5,6 @@ metadata:
   namespace: spring-cloud-demo
 spec:
   serviceName: nacos-headless
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - iZuf6397u09wkubkjrf3skZ
   replicas: 3
   template:
     metadata:
@@ -81,3 +73,12 @@ spec:
   selector:
     matchLabels:
       app: nacos
+  affinity:
+    nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - iZuf6397u09wkubkjrf3skZ
