@@ -7,7 +7,7 @@ spec:
     - nfsvers=3
     - nolock
   capacity:
-    storage: 10Gi # ③
+    storage: 30Gi # ③
   accessModes:
     - ReadWriteOnce # ④
   persistentVolumeReclaimPolicy: Recycle # ⑤

@@ -9,4 +9,4 @@ spec:
   resources:
     requests:
       storage: 6Gi # ④
-  storageClassName: nfs # ⑤
+  storageClassName: zookeeper-nfs # ⑤
