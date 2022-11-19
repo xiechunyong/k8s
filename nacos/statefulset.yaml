@@ -70,6 +70,14 @@ spec:
               value: "hostname"
             - name: NACOS_SERVERS
               value: "nacos-0.nacos-headless.spring-cloud-demo:8848 nacos-1.nacos-headless.spring-cloud-demo:8848 nacos-2.nacos-headless.spring-cloud-demo:8848"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - iZuf6397u09wkubkjrf3skZ
   selector:
     matchLabels:
       app: nacos
