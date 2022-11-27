@@ -17,7 +17,7 @@ spec:
         app: elasticsearch
     spec:
       containers:
-      - image: elasticsearch:7.6.2  ###docker镜像, 注意ELK三者的版本号请统一
+      - image: elasticsearch:7.9.1  ###docker镜像, 注意ELK三者的版本号请统一
         imagePullPolicy: IfNotPresent
         name: es
         resources:
