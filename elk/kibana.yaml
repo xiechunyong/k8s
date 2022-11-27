@@ -22,7 +22,7 @@ spec:
         imagePullPolicy: IfNotPresent
         env:  ###非常重要!!!服务之间ip动态变化, 配置连接最好用域名, Service域名规则是:service.namespace
         - name: ELASTICSEARCH_HOSTS  ###非常重要!!!注意是ELASTICSEARCH_HOSTS还是ELASTICSEARCH_URL, 得和当前版本kibana中/usr/share/kibana/config/kibana.yml的参数名称一样, 可以docker启动镜像进去看看
-          value: "http://elasticsearch-service.spring-cloud-demo:9200"
+          value: "http://elasticsearch.spring-cloud-demo:9200"
         - name: XPACK_SECURITY_ENABLED
           value: "true"
         ports:
