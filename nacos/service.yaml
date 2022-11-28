@@ -16,6 +16,6 @@ spec:
     - name: web
       port: 80
       targetPort: 8848
-      nodePort: 8848
-  type: NodePort
+      # nodePort: 8848
+  type: LoadBalancer
     
